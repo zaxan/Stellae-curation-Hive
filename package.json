@@ -9,15 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hivechain/dsteem": "^0.12.12",
-    "discord.js": "^11.6.3",
-    "express": "^4.17.1",
-    "install": "^0.13.0",
-    "moment": "^2.24.0",
-    "npm": "^6.14.3",
-    "package": "^1.0.1",
-    "package.json": "^2.0.1",
-    "steem-js-patched": "^1.0.0",
-    "verror": "^1.10.0"
+    "discord.js": "^11.3.2",
+    "dsteem": "^0.9.0",
+    "express": "^4.16.3",
+    "moment": "^2.22.2",
+    "steem": "^0.7.1"
   }
 }
