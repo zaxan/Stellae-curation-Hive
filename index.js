@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
-var steem = require('steem')
-var dsteem = require("dsteem")
+var steem = require('steem-js-patched')
+var dsteem = require("@hivechain/dsteem")
 var fs = require("fs")
 var moment = require("moment")
 var whitelistjs = require("./whitelist.js")
@@ -36,7 +36,7 @@ loadWhitelist()
 loadTimes()
 
 
-var client = new dsteem.Client('https://api.steemit.com')
+var client = new dsteem.Client('https://api.hive.blog/')
 
 
 const bot = new Discord.Client();
@@ -86,11 +86,11 @@ bot.on('message', message => {
             message.channel.send("<@" + message.author.id + "> Para votar un post con @" + steemAccount + ", solo escribe `" + prefix + "upvote (linkdelpost)`. El post puede ser de steemit, busy, steempeak o cualquier frond-end que use @author/permlink format. " + botCommandRoleName + " pueden usar `" + prefix + "add (steem usuario)` para agregar al usuario al whitelist `" + prefix + "remove (steem usuario)` para quitarlo del whitelist. `" + prefix + "value` {Poder de voto entre 0.01 y 100} para colocar el bot en un porcentaje personalizado. `" + prefix + "power` para ver el vp restante de la cuenta.")
         }
 
-        if (command == "version" || command == "v") {
+        if (command == "version") {
             message.channel.send("<@" + message.author.id + "> muestra la version actual del bot " + version + ".")
         }
 
-        if (command == "upvote") {
+        if (command == "upvote" || command == "v") {
             steem.api.getAccounts([steemAccount], function (err, response) {
                 var secondsago = (new Date - new Date(response[0].last_vote_time + "Z")) / 1000;
                 var vpow = response[0].voting_power + (10000 * secondsago / 432000);
@@ -119,9 +119,9 @@ bot.on('message', message => {
                     var differenceVoted = currentUTC.diff(authorLastVoteDate, 'minutes')
 
                     if (authorLastVoteDate == null) {
-                        differenceVoted = 1441
+                        differenceVoted = 4321
                     }
-                    if (differenceVoted >= 1440) {
+                    if (differenceVoted >= 4320) {
                         steem.api.getContent(author, permlink, function (err, result) {
                             if (err == null) {
                                 var isComment = true
@@ -159,9 +159,9 @@ bot.on('message', message => {
                         var timeLeft = moment.duration(4320 - differenceVoted, "minutes")._data
                         console.log(timeLeft)
                         if (timeLeft.days == 0) {
-                            message.channel.send("<@" + message.author.id + "> Solo puedes votar al mismo usuario cada 3 dias. Intenta de nuevo en " + timeLeft.hours + " horas y " + timeLeft.minutes + " minutos.")
+                            message.channel.send("<@" + message.author.id + "> Solo puedes votar al mismo usuario cada 3 dias. Intenta de nuevo en " + timeLeft.days  + " dias, " + timeLeft.hours  + " horas y " + timeLeft.minutes + " minutos.")
                         } else {
-                            message.channel.send("<@" + message.author.id + "> Mínimo 3 día entre votaciones al mismo usuario. Intenta de nuevo en " + timeLeft.hours + " horas y " + timeLeft.minutes + " minutos.")
+                            message.channel.send("<@" + message.author.id + "> Mínimo 3 día entre votaciones al mismo usuario. Intenta de nuevo en " + timeLeft.days  + " dias, " + timeLeft.hours + " horas y " + timeLeft.minutes + " minutos.")
                         }
                     }
 
