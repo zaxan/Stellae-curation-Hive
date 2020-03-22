@@ -1,6 +1,9 @@
 const Discord = require('discord.js')
-var steem = require('steem-js-patched')
-var dsteem = require("@hivechain/dsteem")
+var steem = require('steem')
+steem.api.setOptions({ url: 'https://anyx.io/' })
+steem.config.set('address_prefix','STM')
+steem.config.set('chain_id','0000000000000000000000000000000000000000000000000000000000000000')
+var dsteem = require("dsteem")
 var fs = require("fs")
 var moment = require("moment")
 var whitelistjs = require("./whitelist.js")
@@ -36,7 +39,7 @@ loadWhitelist()
 loadTimes()
 
 
-var client = new dsteem.Client('https://api.hive.blog/')
+var client = new dsteem.Client('https://anyx.io/')
 
 
 const bot = new Discord.Client();
